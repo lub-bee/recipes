@@ -54,7 +54,11 @@ class UniteSeeder extends Seeder
             ],
             [
                 "label" => "unité",
-                "abbr" => "u",
+                "abbr" => "",
+            ],
+            [
+                "label" => "tranche",
+                "abbr" => "",
             ]
         ]);
     }

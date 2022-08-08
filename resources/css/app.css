@@ -2,6 +2,51 @@
 @tailwind components;
 @tailwind utilities;
 
+[x-cloak] { display: none !important; }
+
 body {
-    @apply bg-slate-900 text-slate-400;
+    /* @apply bg-slate-900 text-slate-400; */
+}
+
+.nav-link{
+    @apply border rounded-full border-coral-500 px-2 hover:bg-coral-400 hover:border-coral-400 hover:text-white transition;
+}
+.nav-link.active{
+    @apply border rounded-full border-coral-500 bg-coral-500 px-2 text-white;
+}
+
+.angle{
+    clip-path: polygon(100% 0, 0% 100%, 0 0);
+}
+
+.elgna{
+    clip-path: polygon(100% 0, 0% 100%, 100% 100%);
+}
+
+.btn{
+    @apply 
+        text-xs
+        sm:text-base
+        border 
+        border-slate-700 hover:border-slate-600 
+        rounded 
+        flex 
+        gap-1 
+        items-center
+        justify-center
+        p-1 sm:p-2 sm:py-1 
+        bg-sky-700 hover:bg-sky-600 
+        text-white 
+        transition;
+}
+
+.subheader-btn{
+    @apply 
+        text-sky-500  
+        text-base 
+        self-stretch 
+        flex gap-1 justify-center items-center px-2 py-1 rounded  transition;
+}
+.subheader-btn:hover{
+    @apply bg-coral-200 text-coral; 
 }

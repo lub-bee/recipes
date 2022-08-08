@@ -1,6 +1,9 @@
 <?php
 
+return [
+
 //define DB common string lenght
-define("string_short", 32);
-define("string_medium", 64);
-define("string_long", 512);
+"string_short"  => 32,
+"string_medium" => 64,
+"string_long"   => 512,
+];

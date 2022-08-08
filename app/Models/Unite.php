@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Unite extends Model
 {
     use HasFactory;
+
+    public function requirements(){
+        return $this->hasMany(Requirement::class, "unite_id");
+    }
 }

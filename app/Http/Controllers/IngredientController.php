@@ -24,7 +24,7 @@ class IngredientController extends Controller
      */
     public function create()
     {
-        //
+        return view("ingredient.create");
     }
 
     /**
@@ -35,7 +35,17 @@ class IngredientController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            "name" => "required|max:255",
+            "type" => "required|numeric", 
+        ]);
+
+        Ingredient::insert([
+            "name" => $validated['name'],
+            "type" => $validated["type"],
+        ]);
+
+        return redirect()->route("ingredient.index");
     }
 
     /**

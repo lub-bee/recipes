@@ -19,7 +19,6 @@ class ReceipeController extends Controller
      */
     public function index()
     {
-        //
         return view("receipe.index")->with("receipes",Receipe::all());
     }
 
@@ -31,7 +30,6 @@ class ReceipeController extends Controller
     public function create()
     {
         return view("receipe.create");
-        //
     }
 
     /**
@@ -55,10 +53,11 @@ class ReceipeController extends Controller
             "author" => Auth::user()->id,
         ]);
 
-        return redirect()->route("requirement",$id);
+        return redirect()->route("receipe.edit",$id);
     }
 
-    public function store_step(Request $request){
+    public function store_step(Request $request)
+    {
 
         $validated = $request->validate([
             'order' => 'required|numeric',
@@ -80,7 +79,8 @@ class ReceipeController extends Controller
         return redirect()->route("receipe.edit",$receipe->id);
     }
 
-    public function store_requirement(Request $request, $receipe_id){
+    public function store_requirement(Request $request, $receipe_id)
+    {
         $validated = $request->validate([
             'ingredient' => 'required|max:64',
             'unite_id' => 'required|numeric|exists:unites,id',
@@ -139,7 +139,21 @@ class ReceipeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validated = $request->validate([
+            "name" => "required",
+            "preparation_time" => "required|numeric",
+            "cooking_time" => "required|numeric",
+            "difficulty" => "required|numeric"
+        ]);
+
+        Receipe::where(["id"=>$id])->update([
+            "name" => $validated["name"],
+            "preparation_time" => $validated["preparation_time"],
+            "cooking_time" => $validated["cooking_time"],
+            "difficulty" => $validated["difficulty"],
+        ]);
+
+        return redirect()->route("receipe.show",$id)->with("msg", "La recette a ete mise a jour!");
     }
 
     /**
@@ -156,12 +170,67 @@ class ReceipeController extends Controller
         return redirect()->route("receipe.index")->with("msg","La recette a bien été supprimée.");
     }
 
-    public function destroy_requirement(Request $request){
+    public function destroy_requirement(Request $request)
+    {
 
         $validated = $request->validate([
             'receipe_id' => 'required|exists:receipes,id',
-            'id' => 'required|exists:requirements,id',
+            'requirement_id' => 'required|exists:requirements,id',
         ]);
-        // Requirement::where(["id"=> ])
+
+        $receipe = Receipe::where([
+            "id"=>$validated["receipe_id"],
+            "author" => Auth::user()->id,
+        ])->firstOrFail();
+
+        $deleted = Requirement::where([
+            "receipe_id" => $receipe->id,
+            "id" => $validated["requirement_id"],
+        ])->delete();
+
+        return redirect()->route("receipe.edit",$receipe->id);
+        
+    }
+
+    public function destroy_step(Request $request)
+    {
+        $validated = $request->validate([
+            'receipe_id' => 'required|exists:receipes,id',
+            'step_id' => 'required|exists:steps,id',
+        ]);
+
+        $receipe = Receipe::where([
+            "id"=>$validated["receipe_id"],
+            "author" => Auth::user()->id,
+        ])->firstOrFail();
+
+        $deleted = Step::where([
+            "receipe_id" => $receipe->id,
+            "id" => $validated["step_id"],
+        ])->delete();
+
+        return redirect()->route("receipe.edit",$receipe->id);
+    }
+
+    public function reader($receipe_id,$step_num = 1){
+
+        $receipe = Receipe::findOrFail($receipe_id);
+
+        $step_num = intval($step_num);
+
+        // dump($step_num);
+
+        $step_num = ($step_num > 0) ? $step_num : 1;
+
+        //
+        $step_num = ( $step_num > count($receipe->steps) ) ? count($receipe->steps) : $step_num ;
+
+        
+        $step = Step::where("receipe_id",$receipe_id)->orderBy("order","asc")->skip( $step_num -1 )->first();
+
+        return view("receipe.reader")
+            ->with("step_num",$step_num)
+            ->with("step", $step)
+            ->with("receipe", $receipe);
     }
 }

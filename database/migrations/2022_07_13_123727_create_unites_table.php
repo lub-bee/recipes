@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('unites', function (Blueprint $table) {
             $table->id();
             $table->string("label",config("global.string_short"))->nullable(false);
-            $table->string("abbr",config("global.string_short"))->nullable(false);
+            $table->string("abbr",config("global.string_short"))->nullable(true);
             $table->timestamps();
         });
     }

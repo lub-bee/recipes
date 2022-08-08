@@ -6,23 +6,11 @@
     </x-slot>
 
     <h1>Modification de la recette</h1>
-    <div class=''>
-        <div class=''>
-            {{ $receipe->name }}
-        </div>
-        <div class=''>
-            Difficulty {{ $receipe->difficulty }}
-        </div>
-        <div class=''>
-            Preparation {{ $receipe->preparation_time }}min
-        </div>
-        <div class=''>
-            Cooking {{ $receipe->cooking_time }}min
-        </div>
-    </div>
+    <x-single-receipe :receipe="$receipe" />
 
     <h1>Modifier la recette</h1>
     <form action="{{ route("receipe.update",$receipe->id) }}" method="post">
+        @csrf
         @method("put")
 
         <input type="text" name="name" placeholder="Nom" value="{{ old("name", $receipe->name) }}">
@@ -50,15 +38,8 @@
 
     <h1>Liste d'ingredients</h1>
     @forelse ($receipe->requirements as $requirement)
-        <div class='text'>
-            {{ $requirement->ingredient->name }} ({{ $requirement->quantity }} {{ $requirement->unite->abbr }}) 
-            <form action="{{ route("receipe.destroy_requirement") }}" method="post">
-                @csrf 
-                @method("delete")
-                <input type="hidden" name="requirement_id" value="{{ $requirement->id }}">
-                <input type="hidden" name="receipe_id" value="{{ $receipe->id }}">
-                <button type="submit">Supprimer</button>
-            </form>
+        <div class='flex'>
+            <x-single-list-item-requirement :requirement="$requirement" :deletable="true"/>
         </div>
     @empty
         <div class=''>
@@ -67,8 +48,11 @@
     @endforelse
 
     <h1>Ajouter un ingredient</h1>
-    <form action="{{ route("receipe.store_requirement", $receipe->id) }}" method="post">
+    @livewire('requirement-form',["receipe_id"=>$receipe->id])
+    {{-- <form action="{{ route("receipe.store_requirement", $receipe->id) }}" method="post">
         @csrf
+
+        @livewire('search-ingredient')
         
         <input type="text" name="ingredient" placeholder="Ingredient" value="{{ old("ingredient") }}">
         @error('ingredient')
@@ -93,13 +77,12 @@
             <div class="alert alert-danger">{{ $message }}</div>
         @enderror
         <button type="submit">Ajouter ingredient</button>
-    </form>
+    </form> --}}
 
     <h1>Preparation</h1>
+    {{-- @livewire("step-list",["receipe_id"=>$receipe->id]) --}}
     @forelse ($receipe->steps as $step)
-        <div class=''>
-            {{ $step->order }} {{ $step->description }} 
-        </div>
+        <x-single-list-item-step :step="$step" :deletable="true"/>
     @empty
         <div class=''>
             Aucun étape enregistrée pour le moment.
@@ -136,5 +119,7 @@
 
     <a href="{{ route("receipe.index") }}">Retour a la liste</a>
     <a href="{{ route("receipe.show",$receipe->id) }}">Retour a la recette</a>
+
+
 
 </x-app-layout>
