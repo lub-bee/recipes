@@ -50,4 +50,8 @@ class User extends Authenticatable
         // return $this->hasManyThrough(Receipe::class,Favorite::class, "receipe_id","id");
         return $this->hasMany(Favorite::class);
     }
+
+    public function tasks(){
+        return $this->hasMany(Task::class);
+    }
 }
