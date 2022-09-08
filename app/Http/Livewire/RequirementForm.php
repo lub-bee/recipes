@@ -13,14 +13,14 @@ class RequirementForm extends Component
     public $unites;
     // public $ingredient;
     public $quantity;
-    public $unite_id;
+    public $unite_id = 10;
     public $receipe_id;
     public $ingredientTerm;
     public $ingredients;
 
     protected $rules = [
         'ingredient' => 'required|max:64',
-        'unite_id' => 'required|numeric|exists:unites,id',
+        'unite_id' => 'required|numeric',
         'quantity' => 'required|numeric',
         'receipe_id' => 'required|exists:receipes,id',
     ];

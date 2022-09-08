@@ -5,21 +5,26 @@
         </h2>
     </x-slot>
 
+    <div id="like_button_container"></div>
+
+    @livewire("task-list")
+    
+
     <div class="m-6 bg-white shadow rounded p-6 px-4">
-        <ul>
-            <li>. Search Ingredient API</li>
-            <li>. Search Receipe API</li>
-            <li>. Unite List</li>
-            <li>. Unite Add</li>
-            <li>. User Add</li>
-            <li>. User Search</li>
-            <li>. Seasoning flag</li>
-            <li>. Saved</li>
-            <li>. Planner (week)</li>
-            <li>. Shopping list</li>
-            <li>. Security</li>
-            <li>. Clean route</li>
-        </ul>
+        <div class=''>
+            @livewire("task-form")    
+        </div>
+        
+        
+        
+        <div class='divide-y'>
+            @forelse ($tasks as $task)
+
+                @livewire('task-item-old', ['task' => $task], key($task->id))
+            @empty
+                
+            @endforelse    
+        </div>
     </div>
 
 </x-app-layout>

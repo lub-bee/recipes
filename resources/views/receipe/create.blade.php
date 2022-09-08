@@ -5,52 +5,75 @@
                 {{ __('Ajouter une nouvelle recette') }}
             </h2>
             <div class='flex-none text-sky-600'>
-                <a href="{{ route("receipe.index") }}"><i class='fa-solid fa-list'></i> Recettes</a>
+                <x-subheader-link :url="route('receipe.index')" icon="fa-solid fa-list" label="Recettes" />
             </div>
         </div>
         
     </x-slot>
 
     <div class='m-6 p-4 bg-white rounded-xl'>
-        <form action="{{ route("receipe.store") }}" method="POST">
+        <form action="{{ route("receipe.store") }}" method="POST" class="flex flex-col gap-4">
             @csrf
     
-            <div class=''>
-                <input name="name"
-                    type="text"
-                    placeholder="Nom de la recette"
-                    class="@error('name') is-invalid @enderror"
-                    value="{{ old("name") }}">
-                
-                @error('name')
-                    <div class="alert alert-danger">{{ $message }}</div>
-                @enderror
+            <div class='flex'>
+                <div class='w-60 leading-10 self-center'>
+                    Nom de la recette
+                </div>
+                <div class="flex flex-col">
+                    <div class='text-gray-500 self-end text-xs'>
+                        0 / 60
+                    </div>
+                    <input name="name"
+                        type="text"
+                        placeholder="Ex. : Tartiflette traditionnelle"
+                        class="@error('name') is-invalid @enderror"
+                        value="{{ old("name") }}">
+                    
+                    @error('name')
+                        <div class="text-xs text-red-500 self-end">{{ $message }}</div>
+                    @enderror
+                </div>
             </div>
     
-            <div class=''>
-                <input type="number" 
-                    name="preparation_time"
-                    placeholder="Preparation en min"
-                    class="@error('preparation_time') is-invalid @enderror"
-                    value="{{ old("preparation_time") }}">
+            <div class='flex'>
+                <div class='w-60'>
+                    Durée de la préparation
+                </div>
+                <div class='flex flex-col'>
+                    <input type="number" 
+                        name="preparation_time"
+                        placeholder="Ex. : 15"
+                        class="@error('preparation_time') is-invalid @enderror"
+                        value="{{ old("preparation_time") }}">
+                    
+                    @error('preparation_time')
+                        <div class="text-xs text-red-500 self-end">{{ $message }}</div>
+                    @enderror    
+                </div>
                 
-                @error('preparation_time')
-                    <div class="alert alert-danger">{{ $message }}</div>
-                @enderror
             </div>
     
-            <div class=''>  
-                <input type="number"
-                    name="cooking_time"
-                    placeholder="Cuisson en min"
-                    class="@error('cooking_time') is-invalid @enderror"
-                    value="{{ old("cooking_time") }}">
+            <div class='flex'>  
+                <div class='w-60'>
+                    Durée de la cuisson
+                </div>
+                <div class='flex flex-col'>
+                    <input type="number"
+                        name="cooking_time"
+                        placeholder="Cuisson en min"
+                        class="@error('cooking_time') is-invalid @enderror"
+                        value="{{ old("cooking_time") }}">
+                    
+                    @error('cooking_time')
+                        <div class="text-xs text-red-500 self-end">{{ $message }}</div>
+                    @enderror
+                </div>
                 
-                @error('cooking_time')
-                    <div class="alert alert-danger">{{ $message }}</div>
-                @enderror
             </div>
-            <button>Suivant</button>
+            <div class='flex justify-center'>
+                <button class="btn">Suivant <i class='fa-solid fa-caret-right'></i></button>    
+            </div>
+            
         </form>
     </div>
     

@@ -4,33 +4,26 @@
         <div class='flex'>
             <h2 class="flex-1 font-semibold text-xl">{{ ucfirst($receipe->name) }}</h2>
             <div class='flex-none flex gap-2 text-sky-500 group text-base'>
+                
                 @livewire("favorite-icon-form", ["receipe_id"=>$receipe->id])
-                <a href="{{ route("favorite.index") }}" class="self-stretch hover:bg-coral-200 hover:text-coral flex gap-1 justify-center items-center px-2 py-1 rounded   transition">
-                    <i class='fa-solid fa-book-bookmark'></i>
-                    <div class='hidden sm:block'>
-                        Favoris
-                    </div>
-                </a>
-                <a href="" class="self-stretch hover:bg-coral-200 hover:text-coral flex gap-1 justify-center items-center px-2 py-1 rounded  transition">
-                    <i class='fa-solid fa-list-check'></i>
-                    <div class='hidden sm:block'>
-                        Liste de courses
-                    </div>
-                </a>
-                <a href="" class="self-stretch hover:bg-coral-200 hover:text-coral flex gap-1 justify-center items-center px-2 py-1 rounded  transition">
-                    <i class='fa-regular fa-calendar-plus'></i>
-                    <div class='hidden sm:block'>
-                        Planning
-                    </div>
-                </a>
+
+                <x-subheader-link label="Favoris" icon="fa-solid fa-book-bookmark" :url='route("favorite.index")'/>
+                <x-subheader-link label="Liste de courses" icon="fa-solid fa-list-check" url=""/>
+                <x-subheader-link label="Planning" icon="fa-regular fa-calendar" url=""/>
+
+                @auth
+                    @if (Auth::user()->id == $receipe->author)
+                        <x-subheader-link label="Editer" icon="fa-regular fa-edit" :url='route("receipe.edit",$receipe->id)'/>
+                    @endif
+                @endauth
             </div>
         </div>
         
     </x-slot>
 
     <div class='m-6 bg-white rounded-xl overflow-hidden shadow'>
-        
-        <div class='hidden bg-coral text-white sm:flex sm:flex-row p-2 sm:divide-y-0 sm:divide-x divide-white '>
+        <x-receipe-header :receipe="$receipe"></x-receipe-header>
+        {{-- <div class='hidden bg-coral text-white sm:flex sm:flex-row p-2 sm:divide-y-0 sm:divide-x divide-white '>
             
             <div class='flex-1 flex gap-2 px-2 justify-center'>
                 <div class=''>
@@ -56,7 +49,7 @@
                 Par <span class="font-semibold">{{ $receipe->user->name }}</span>
             </a>
 
-        </div>
+        </div> --}}
 
         <div class='p-6 py-4'>
             <div class='flex items-center pb-2'>

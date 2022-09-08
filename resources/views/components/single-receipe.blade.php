@@ -7,12 +7,6 @@
 <div>
 <header class="flex justify-between">
     <h1 class="text-3xl font-bold">{{ $receipe->name }}</h1>
-
-    @auth
-        <nav class="flex justify-end">
-            <a href="{{ route("receipe.edit", $receipe->id) }}">Editer la recette</a>    
-        </nav>
-    @endauth
 </header>
 
 <div class='flex gap-4'>

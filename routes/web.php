@@ -5,10 +5,13 @@ use App\Http\Controllers\IngredientController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ReceipeController;
 use App\Http\Controllers\RequirementController;
+use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UniteController;
 use App\Http\Controllers\UserController;
 use App\Models\Step;
+use App\Models\Task;
 use App\Models\Unite;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -48,9 +51,10 @@ Route::resource("/ingredient", IngredientController::class);
 
 Route::get('/dashboard', [PageController::class, "dashboard"])->middleware(['auth'])->name('dashboard');
 
-Route::get('/taskboard', function () {
-    return view('taskboard');
-})->name('taskboard');
+// Route::get('/taskboard', function () {
+//     return view('taskboard');
+// })->middleware(['auth'])->name('taskboard');
+Route::get("/taskboard", [TaskController::class, "index"])->middleware("auth")->name("taskboard");
 
 Route::get('/cgu', function () {
     return view('page.cgu');

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string("label",255)->nullable(false);
             $table->boolean("status")->default(false);
-            $table->text("detail");
+            $table->text("detail")->nullable(true);
             $table->integer("user_id");
             $table->timestamps();
         });

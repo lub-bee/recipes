@@ -4,5 +4,5 @@
     @method("delete")
     <input type="hidden" name="requirement_id" value="{{ $requirement->id }}">
     <input type="hidden" name="receipe_id" value="{{ $requirement->receipe_id }}">
-    <button type="submit">Supprimer</button>
+    <button type="submit" class="btn-red-off">Supprimer</button>
 </form>

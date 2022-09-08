@@ -2,7 +2,7 @@
     <input type="text" wire:model="searchTerms" />
 
     <div class="bg-gray-400 p-2 rounded-xl max-h-[200px] text-black flex flex-col">
-        <ul class="flex-1 overflow-x-scroll grid grid-cols-3">
+        <ul class="flex-1 overflow-x-scroll flex w-20">
             @forelse ($ingredients as $ingredient)
                 <li wire:click="$emit('postAdded')">{{ $ingredient->name }}</li>
             @empty
